@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace MessageBoard.Controllers
 {
+  [ApiVersion("1.0")]
   [Route("api/[controller]")]
   [ApiController]
   public class GroupsController : ControllerBase
@@ -18,7 +19,6 @@ namespace MessageBoard.Controllers
       _db = db;
     }
 
-    // GET api/group
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Group>>> Get()
     {
@@ -94,5 +94,14 @@ namespace MessageBoard.Controllers
 
       return NoContent();
     }
+  }
+
+  [ApiVersion( "2.0" )]
+  [ApiController]
+  [Route("api/Reviews2Controller" )]
+  public class Reviews2Controller : ControllerBase
+  {
+    [HttpGet]
+    public string Get() => "Hello world!";
   }
 }

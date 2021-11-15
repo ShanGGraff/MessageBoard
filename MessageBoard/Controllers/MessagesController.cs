@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace MessageBoard.Controllers
 {
+  [ApiVersion("1.0")]
   [Route("api/[controller]")]
   [ApiController]
   public class MessagesController : ControllerBase
@@ -20,9 +21,26 @@ namespace MessageBoard.Controllers
 
     // GET api/users
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Message>>> Get()
+    public async Task<ActionResult<IEnumerable<Message>>> Get(int groupId, int year, string authorName)
     {
-      return await _db.Messages.ToListAsync();
+      var query = _db.Messages.AsQueryable();
+
+      if(groupId > 0)
+      {
+        query = query.Where(entry => entry.GroupId == groupId);
+      }
+
+      if(year > 0)
+      {
+        query = query.Where(entry =>  entry.Year == year);
+      }
+
+      if(authorName != null)
+      {
+        query = query.Where(entry => entry.AuthorName == authorName);
+      }
+
+      return await query.ToListAsync();
     }
 
     [HttpGet("{id}")]
